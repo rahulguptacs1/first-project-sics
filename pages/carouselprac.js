@@ -57,6 +57,19 @@ function first({ products }) {
     console.log(window.innerWidth);
     setMyWindow(window);
   }, []);
+  useEffect(() => {
+    window.addEventListener("keydown", (e) => {
+      console.log(e.key);
+      switch (e.key) {
+        case "ArrowLeft":
+          carouselRef.current.previous();
+          break;
+        case "ArrowRight":
+          carouselRef.current.next();
+          break;
+      }
+    });
+  }, []);
   return (
     <div className={styles.first}>
       <div className={styles.carousel}>
@@ -79,9 +92,6 @@ function first({ products }) {
           responsive={responsive}
           transitionDuration={100}
           removeArrowOnDeviceType={["mobile", "tablet"]}
-          renderButtonGroupOutside={false}
-          renderDotsOutside={false}
-          customButtonGroup={<CustomButtonGroup />}
           deviceType={
             myWindow?.innerWidth <= 600
               ? "mobile"
@@ -125,6 +135,29 @@ function first({ products }) {
         >
           next slide
         </button>
+        <button
+          onClick={() => {
+            const nextSlide = carouselRef.current.state.currentSlide + 1;
+            carouselRef.current.previous();
+            // carouselRef.current.goToSlide(nextSlide, {
+            //   skipBeforeChange: true,
+            // });
+          }}
+        >
+          prev slide
+        </button>
+        {products.map((product, i) => (
+          <p
+            onClick={() => {
+              carouselRef.current.goToSlide(i, false);
+              // true -> before and after change are not ran
+              // {skipBeforeChange: true,} -> before change is not ran
+              // false -> both are ran
+            }}
+          >
+            {i}
+          </p>
+        ))}
       </div>
       <div>
         <button onClick={() => console.log("clicked")}>clicked</button>
