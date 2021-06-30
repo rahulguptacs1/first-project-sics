@@ -17,7 +17,9 @@ function SideItem({ text, items = [], level }) {
             paddingLeft: `${level}rem`,
           }}
         >
-          {items.map((item, i) => item)}
+          {items.map((item, i) => (
+            <div key={i}>{item}</div>
+          ))}
         </div>
       )}
     </div>

@@ -10,7 +10,7 @@ function ImageOpenView({ src, close }) {
     >
       <div className={styles.image}>
         <p className={styles.icon}>
-          <i class="fa fa-times" aria-hidden="true"></i>
+          <i className="fa fa-times" aria-hidden="true"></i>
         </p>
         <img
           src={src}

@@ -80,7 +80,7 @@ function Navbar() {
               component={({ handlers }) => (
                 <p {...handlers}>
                   maintanence{" "}
-                  <i class="fa fa-angle-right" aria-hidden="true"></i>
+                  <i className="fa fa-angle-right" aria-hidden="true"></i>
                 </p>
               )}
               items={[<p>Privacy policy</p>, <p>Blog</p>]}

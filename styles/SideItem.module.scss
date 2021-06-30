@@ -1,6 +1,7 @@
 .container {
   user-select: none;
   .sideItem {
+    cursor: pointer;
     // border: 1px solid salmon;
     padding: 1rem 1.5rem;
     text-transform: uppercase;

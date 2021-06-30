@@ -10,9 +10,11 @@ import { usePrevious } from "../hooks/usePrevious";
 import { useSwipe } from "../hooks/useSwipe";
 import Review from "../components/Review";
 import { useElementProperty } from "../hooks/useElementProperty";
+import { useEffect } from "react/cjs/react.development";
 export default function Home({ products }) {
   const { activeIndex, swipeHandlers, prevIndex, nextIndex, swipeType } =
     useSwipe(5);
+  const [showScrollUpButton, setShowScrollUpButton] = useState(false);
   const { propertyValue: reviewHeight, ref: reviewRef } = useElementProperty(
     "offsetHeight",
     (updaterFunc) => {
@@ -22,6 +24,13 @@ export default function Home({ products }) {
       });
     }
   );
+  useEffect(() => {
+    window.addEventListener("scroll", () => {
+      // console.log(window.scrollY);
+      // console.log(window.innerHeight);
+      setShowScrollUpButton(window.scrollY > window.innerHeight / 2);
+    });
+  }, []);
   const prevActiveIndex = usePrevious(activeIndex);
   return (
     <div className={styles.container}>
@@ -34,7 +43,7 @@ export default function Home({ products }) {
       <p
         className={styles.first}
         onClick={() => {
-          console.log(reviewRef.current.offsetHeight);
+          setShowScrollUpButton(!showScrollUpButton);
         }}
       >
         {" "}
@@ -80,6 +89,21 @@ export default function Home({ products }) {
           );
         })}
       </div>
+      <CSSTransition
+        in={showScrollUpButton}
+        timeout={300}
+        classNames={`scroll-up-button`}
+        unmountOnExit
+      >
+        <div
+          className={styles.scrollUp}
+          onClick={() => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+        >
+          <i className="fa fa-arrow-up" aria-hidden="true"></i>
+        </div>
+      </CSSTransition>
     </div>
   );
 }
