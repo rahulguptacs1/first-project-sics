@@ -28,12 +28,7 @@
       }
     }
   }
-  .sideItem {
-    // border: 1px solid salmon;
-    padding: 1rem 1.5rem;
-    text-transform: capitalize;
-    border-bottom: 1px solid rgb(194, 194, 194);
-  }
+
   .items {
     @media (max-width: 1200px) {
       display: none;

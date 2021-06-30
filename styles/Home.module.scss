@@ -24,14 +24,13 @@
     }
   }
   .reviews {
-    border: 1px solid purple;
+    // border: 2px solid purple;
     display: flex;
     justify-content: center;
     position: relative;
-    height: 20vh;
-    height: 352px;
     overflow: hidden;
     .review {
+      // border: 5px solid red;
       position: absolute;
       width: 50vw;
       user-select: none;

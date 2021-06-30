@@ -2,7 +2,7 @@ import { useState } from "react";
 import styles from "../styles/Navbar.module.scss";
 import Dropdown from "./Dropdown";
 import Sidebar from "./Sidebar";
-import classNames from "classnames";
+import SideItem from "./SideItem";
 function Navbar() {
   const [showSidebar, setShowSidebar] = useState(false);
   return (
@@ -20,9 +20,37 @@ function Navbar() {
         >
           <img src="https://template65052.motopreview.com/mt-demo/65000/65052/mt-content/uploads/2017/09/mt-1169_header_logo01.png" />
         </div>
-        <p className={styles.sideItem}>mavic</p>
-        <p className={styles.sideItem}>phantom</p>
-        <p className={styles.sideItem}>accessories</p>
+        <SideItem text="mavic" />
+        <SideItem text="phantom" />
+        <SideItem text="accessories" />
+        <SideItem
+          text={
+            <span>
+              about&ensp;<i className="fa fa-angle-down" aria-hidden="true"></i>
+            </span>
+          }
+          items={[
+            <SideItem
+              text={
+                <span>
+                  maintanence&ensp;
+                  <i className="fa fa-angle-down" aria-hidden="true"></i>
+                </span>
+              }
+              level={2}
+              items={[
+                <SideItem text="privacy policy" />,
+                <SideItem text="blog" />,
+              ]}
+            />,
+            <SideItem text="careers" />,
+            <SideItem text="our team" />,
+          ]}
+          level={1}
+        />
+
+        <SideItem text="contacts" />
+        <SideItem text="blog" />
       </Sidebar>
       <div className={styles.logo}>
         <img src="https://template65052.motopreview.com/mt-demo/65000/65052/mt-content/uploads/2017/09/mt-1169_header_logo01.png" />

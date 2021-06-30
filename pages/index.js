@@ -4,15 +4,24 @@ import getAllProducts from "@bigcommerce/storefront-data-hooks/api/operations/ge
 import styles from "../styles/Home.module.scss";
 import Card from "../components/Card";
 import { CSSTransition } from "react-transition-group";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { modFunc, randomInRange, range } from "../helpers/utils";
 import { usePrevious } from "../hooks/usePrevious";
 import { useSwipe } from "../hooks/useSwipe";
 import Review from "../components/Review";
+import { useElementProperty } from "../hooks/useElementProperty";
 export default function Home({ products }) {
   const { activeIndex, swipeHandlers, prevIndex, nextIndex, swipeType } =
     useSwipe(5);
-
+  const { propertyValue: reviewHeight, ref: reviewRef } = useElementProperty(
+    "offsetHeight",
+    (updaterFunc) => {
+      window.addEventListener("resize", () => {
+        // console.log("updating height");
+        updaterFunc();
+      });
+    }
+  );
   const prevActiveIndex = usePrevious(activeIndex);
   return (
     <div className={styles.container}>
@@ -22,7 +31,15 @@ export default function Home({ products }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <p className={styles.first}> first page </p>
+      <p
+        className={styles.first}
+        onClick={() => {
+          console.log(reviewRef.current.offsetHeight);
+        }}
+      >
+        {" "}
+        first page{" "}
+      </p>
       <div className={styles.section}>
         <h3 className={styles.head}>Top Rated Drones & Quadcopters</h3>
         <h4 className={styles.slug}>
@@ -36,7 +53,13 @@ export default function Home({ products }) {
           <Card product={products[4]} />
         </div>
       </div>
-      <div className={styles.reviews} {...swipeHandlers}>
+      <div
+        className={styles.reviews}
+        style={{
+          minHeight: `${reviewHeight}px`,
+        }}
+        {...swipeHandlers}
+      >
         {range(0, 4).map((show, i) => {
           return (
             <CSSTransition
@@ -49,6 +72,7 @@ export default function Home({ products }) {
               <div
                 className={styles.review}
                 style={{ zIndex: modFunc(prevActiveIndex)(i) }}
+                ref={reviewRef}
               >
                 <Review />
               </div>

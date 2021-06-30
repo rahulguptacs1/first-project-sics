@@ -1,0 +1,11 @@
+.container {
+  user-select: none;
+  .sideItem {
+    // border: 1px solid salmon;
+    padding: 1rem 1.5rem;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgb(194, 194, 194);
+  }
+  .children {
+  }
+}
