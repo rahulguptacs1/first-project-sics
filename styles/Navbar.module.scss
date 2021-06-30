@@ -1,0 +1,33 @@
+.navbar {
+  display: flex;
+  align-items: stretch;
+  //   border: 1px solid red;
+  width: 100%;
+  padding: 0 10%;
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+  .items {
+    height: 70px;
+    flex: 2;
+    // border: 1px solid blue;
+    display: flex;
+    justify-content: flex-end;
+    align-items: stretch;
+    gap: 40px;
+    .item {
+      text-transform: capitalize;
+      color: gray;
+      transition: all 300ms ease;
+      cursor: pointer;
+      //   border: 1px solid red;
+      display: flex;
+      align-items: center;
+      &:hover,
+      &.hover {
+        color: black;
+      }
+    }
+  }
+}

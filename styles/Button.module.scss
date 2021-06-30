@@ -1,0 +1,15 @@
+.button {
+   
+    padding: .5rem 1rem;
+    background-color: rgb(59,59,59);
+    color: white;
+    border-radius: 6px;
+    width: min-content;
+    margin: auto;
+    white-space: nowrap;
+     transition: all 300ms ease;
+    &:hover {
+        cursor: pointer;
+        background-color: rgb(233, 66, 255);
+    }
+}

@@ -1,0 +1,30 @@
+.imageOpenView {
+  z-index: 1000;
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  background-color: rgba(0, 0, 0, 0.61);
+  .image {
+    //   border: 1px solid red;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: max-content;
+    transform: translate(-50%, -50%);
+    .icon {
+      text-align: right;
+      padding: 0.5rem 0;
+      color: rgba(190, 190, 190, 0.616);
+      &:hover {
+        color: white;
+      }
+    }
+    img {
+      max-width: 50vw;
+      max-height: 80vh;
+    }
+  }
+}

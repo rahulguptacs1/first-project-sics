@@ -1,0 +1,38 @@
+.container {
+  z-index: 1;
+  //   border: 3px solid pink;
+  position: relative;
+  display: flex;
+  align-items: center;
+  .dropdown {
+    background-color: rgb(59, 59, 59);
+
+    position: absolute;
+
+    &.down {
+      top: 100%;
+      left: 0;
+    }
+    &.right {
+      top: 0;
+      left: 100%;
+    }
+    p {
+      width: 200px;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      padding: 1rem;
+      color: rgb(185, 185, 185);
+      transition: all 300ms ease;
+      //   border: 1px solid orange;
+      display: flex;
+      justify-content: space-between;
+      &:hover {
+        cursor: pointer;
+        color: rgb(233, 66, 255);
+      }
+      i {
+      }
+    }
+  }
+}

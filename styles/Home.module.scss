@@ -1,0 +1,40 @@
+.container {
+  .first {
+    color: red;
+  }
+  .section {
+    text-align: center;
+    .head {
+      font-size: 2rem;
+    }
+    .slug {
+      color: #999999;
+    }
+    .cards {
+      padding: 2rem;
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(4, 1fr);
+      @media (max-width: 1200px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      @media (max-width: 900px) {
+        grid-template-columns: repeat(1, 1fr);
+      }
+    }
+  }
+  .reviews {
+    border: 1px solid purple;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    height: 20vh;
+    height: 352px;
+    overflow: hidden;
+    .review {
+      position: absolute;
+      width: 50vw;
+      user-select: none;
+    }
+  }
+}
