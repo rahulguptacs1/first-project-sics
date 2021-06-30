@@ -1,14 +1,43 @@
 .navbar {
   display: flex;
   align-items: stretch;
+
   //   border: 1px solid red;
   width: 100%;
   padding: 0 10%;
+  @media (max-width: 1200px) {
+    padding: 0 5%;
+  }
   .logo {
     display: flex;
+    justify-content: center;
     align-items: center;
+    height: 70px;
+    flex: 1;
+  }
+  .burger {
+    border: 1px solid red;
+    display: none;
+    height: 70px;
+    padding: 1rem;
+    @media (max-width: 1200px) {
+      display: flex;
+      align-items: center;
+      i {
+        font-size: 1.5rem;
+      }
+    }
+  }
+  .sideItem {
+    // border: 1px solid salmon;
+    padding: 1rem 1.5rem;
+    text-transform: capitalize;
+    border-bottom: 1px solid rgb(194, 194, 194);
   }
   .items {
+    @media (max-width: 1200px) {
+      display: none;
+    }
     height: 70px;
     flex: 2;
     // border: 1px solid blue;

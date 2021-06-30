@@ -18,6 +18,13 @@ a {
   font-size: 1rem;
   font-weight: normal;
 }
+.red {
+  color: red;
+}
+.justify-start {
+  border: 2px solid pink;
+  justify-content: flex-start !important;
+}
 .review-right-enter {
   transform: translateX(-100%);
 }
@@ -32,4 +39,38 @@ a {
 .review-left-enter-active {
   transform: translateX(0);
   transition: all 300ms ease;
+}
+.nav-enter {
+  transform: translateX(-100%);
+}
+.nav-enter-active {
+  transform: translateX(0%);
+  transition: all 500ms ease;
+}
+.nav-enter-done {
+}
+.nav-exit {
+}
+.nav-exit-active {
+  transform: translateX(-100%);
+  transition: all 500ms ease-in;
+}
+.nav-exit-done {
+}
+.bg-enter {
+  opacity: 0;
+}
+.bg-enter-active {
+  opacity: 1;
+  transition: all 500ms ease;
+}
+.bg-enter-done {
+}
+.bg-exit {
+}
+.bg-exit-active {
+  opacity: 0;
+  transition: all 500ms ease-in;
+}
+.bg-exit-done {
 }

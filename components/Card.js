@@ -3,7 +3,7 @@ import styles from "../styles/Card.module.scss";
 import Button from "./Button";
 import ImageOpenView from "./ImageOpenView";
 function Card({ product, openImage = true, detectClick = () => {} }) {
-  // console.log(product)
+  // console.log(product);
   // console.log(product.node.images.edges[0].node.urlOriginal)
   const [showImage, setShowImage] = useState(false);
 
@@ -33,9 +33,9 @@ function Card({ product, openImage = true, detectClick = () => {} }) {
       </div>
 
       <p className={styles.name}>
-        YUNEEC – Typhoon H Hexacopter Pro with Intel RealSense Technology
+        {product.node.name.replace("[Sample] ", "")}
       </p>
-      <p className={styles.price}>$895.00</p>
+      <p className={styles.price}>${product.node.prices.price.value}</p>
       <Button>
         <i className="fa fa-shopping-cart"></i>Add to cart
       </Button>
