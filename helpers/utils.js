@@ -14,3 +14,24 @@ export const modFunc = (val) => {
     return Math.abs(x - val);
   };
 };
+export const conditionalLog = (log = true, groups = {}) => {
+  const g = {};
+  Object.keys(groups).forEach((key) => {
+    g[key] = key;
+  });
+  return {
+    c: (val, group) => {
+      if (!log) return;
+      if (group && Object.keys(groups).length) {
+        if (groups[group]) {
+          console.log(val);
+        }
+      } else {
+        console.log(val);
+      }
+
+      return val;
+    },
+    g,
+  };
+};

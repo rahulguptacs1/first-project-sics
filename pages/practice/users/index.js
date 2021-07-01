@@ -5,14 +5,17 @@ export const getStaticProps = async () => {
 
   return { props: { users: data } };
 };
-function Users() {
+function Users({ users }) {
   return (
     <div>
       <h1>Users</h1>
       <ul>
         {users.map((user) => (
           <li key={user.id}>
-            <Link href={`users/${user.id}`}>
+            <Link
+              href={`/practice/users/[id]`}
+              as={`/practice/users/${user.id}`}
+            >
               <p>{user.username}</p>
             </Link>
           </li>

@@ -26,7 +26,10 @@ function About({ users }) {
       <ul>
         {cityList.map((item, index) => (
           <li key={index}>
-            <Link as={`/${item.country}/${item.city}`} href="/[country]/[city]">
+            <Link
+              as={`/practice/${item.country}/${item.city}`}
+              href="/practice/[country]/[city]"
+            >
               <a>
                 {item.country}-{item.city}
               </a>

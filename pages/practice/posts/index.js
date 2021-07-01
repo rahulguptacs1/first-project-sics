@@ -6,7 +6,7 @@ function Posts({ posts }) {
       {posts.map((post, i) => (
         <div key={i}>
           <p>
-            <Link href="/posts/[id]" as={`/posts/${post.id}`}>
+            <Link href="/practice/posts/[id]" as={`/practice/posts/${post.id}`}>
               visit
             </Link>
           </p>

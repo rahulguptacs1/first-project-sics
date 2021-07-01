@@ -1,7 +1,7 @@
 import Carousel from "react-multi-carousel";
 import { getConfig } from "@bigcommerce/storefront-data-hooks/api";
 import getAllProducts from "@bigcommerce/storefront-data-hooks/api/operations/get-all-products";
-import Card from "../components/Card";
+import Card from "../../components/Card";
 import { isMobile } from "react-device-detect";
 const responsive = {
   superLargeDesktop: {
@@ -29,9 +29,9 @@ const responsive = {
 };
 // when centerMode is true
 //  partialVisibilityGutter is 50%
-import styles from "../styles/first.module.scss";
+import styles from "../../styles/practice/CarouselPrac.module.scss";
 import { useEffect, useRef, useState } from "react";
-import ImageOpenView from "../components/ImageOpenView";
+import ImageOpenView from "../../components/ImageOpenView";
 import next from "next";
 
 function CarouselPrac({ products }) {

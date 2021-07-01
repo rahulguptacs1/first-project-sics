@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 function CityItem() {
   const router = useRouter();
+  // console.log(router.query);
   const { country, city } = router.query; // Destructuring our router object
 
   return (

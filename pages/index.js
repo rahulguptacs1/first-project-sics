@@ -4,14 +4,16 @@ import getAllProducts from "@bigcommerce/storefront-data-hooks/api/operations/ge
 import styles from "../styles/Home.module.scss";
 import Card from "../components/Card";
 import { CSSTransition } from "react-transition-group";
-import { useRef, useState } from "react";
-import { modFunc, randomInRange, range } from "../helpers/utils";
+import { useState } from "react";
+import { modFunc, range } from "../helpers/utils";
 import { usePrevious } from "../hooks/usePrevious";
 import { useSwipe } from "../hooks/useSwipe";
 import Review from "../components/Review";
 import { useElementProperty } from "../hooks/useElementProperty";
 import { useEffect } from "react/cjs/react.development";
 import Link from "next/link";
+import Slider from "../components/Home/Slider";
+
 export default function Home({ products }) {
   const { activeIndex, swipeHandlers, prevIndex, nextIndex, swipeType } =
     useSwipe(5);
@@ -25,6 +27,7 @@ export default function Home({ products }) {
       });
     }
   );
+
   useEffect(() => {
     window.addEventListener("scroll", () => {
       // console.log(window.scrollY);
@@ -51,7 +54,7 @@ export default function Home({ products }) {
         first page{" "}
       </p>
       <p>
-        <Link href="/about">
+        <Link href="/practice/about">
           <a>About App</a>
         </Link>
       </p>
@@ -68,6 +71,7 @@ export default function Home({ products }) {
           <Card product={products[4]} />
         </div>
       </div>
+
       <div
         className={styles.reviews}
         style={{
@@ -95,6 +99,7 @@ export default function Home({ products }) {
           );
         })}
       </div>
+      <Slider products={products} />
       <CSSTransition
         in={showScrollUpButton}
         timeout={300}
