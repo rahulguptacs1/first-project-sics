@@ -11,6 +11,7 @@ import { useSwipe } from "../hooks/useSwipe";
 import Review from "../components/Review";
 import { useElementProperty } from "../hooks/useElementProperty";
 import { useEffect } from "react/cjs/react.development";
+import Link from "next/link";
 export default function Home({ products }) {
   const { activeIndex, swipeHandlers, prevIndex, nextIndex, swipeType } =
     useSwipe(5);
@@ -48,6 +49,11 @@ export default function Home({ products }) {
       >
         {" "}
         first page{" "}
+      </p>
+      <p>
+        <Link href="/about">
+          <a>About App</a>
+        </Link>
       </p>
       <div className={styles.section}>
         <h3 className={styles.head}>Top Rated Drones & Quadcopters</h3>

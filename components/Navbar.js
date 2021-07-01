@@ -3,6 +3,7 @@ import styles from "../styles/Navbar.module.scss";
 import Dropdown from "./Dropdown";
 import Sidebar from "./Sidebar";
 import SideItem from "./SideItem";
+import classNames from "classnames";
 function Navbar() {
   const [showSidebar, setShowSidebar] = useState(false);
   return (
@@ -31,6 +32,7 @@ function Navbar() {
           }
           items={[
             <SideItem
+              key={0}
               text={
                 <span>
                   maintanence&ensp;
@@ -39,12 +41,12 @@ function Navbar() {
               }
               level={2}
               items={[
-                <SideItem text="privacy policy" />,
-                <SideItem text="blog" />,
+                <SideItem key={0} text="privacy policy" />,
+                <SideItem key={1} text="blog" />,
               ]}
             />,
-            <SideItem text="careers" />,
-            <SideItem text="our team" />,
+            <SideItem key={1} text="careers" />,
+            <SideItem key={2} text="our team" />,
           ]}
           level={1}
         />
@@ -62,20 +64,15 @@ function Navbar() {
         <p className={styles.item}>accessories</p>
         <Dropdown
           position="down"
-          component={({ classNames, ...handlers }) => (
-            <p
-              className={[
-                styles.item,
-                classNames.map((className) => styles[className]).join(" "),
-              ].join(" ")}
-              {...handlers}
-            >
+          component={({ classes, ...handlers }) => (
+            <p className={classNames(styles.item, classes)} {...handlers}>
               about&ensp;
               <i className="fa fa-angle-down" aria-hidden="true"></i>
             </p>
           )}
           items={[
             <Dropdown
+              key={0}
               position="right"
               component={({ handlers }) => (
                 <p {...handlers}>
@@ -83,10 +80,10 @@ function Navbar() {
                   <i className="fa fa-angle-right" aria-hidden="true"></i>
                 </p>
               )}
-              items={[<p>Privacy policy</p>, <p>Blog</p>]}
+              items={[<p key={0}>Privacy policy</p>, <p key={1}>Blog</p>]}
             />,
-            <p>careers</p>,
-            <p>our team</p>,
+            <p key={1}>careers</p>,
+            <p key={2}>our team</p>,
           ]}
         />
 

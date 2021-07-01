@@ -33,22 +33,8 @@ import styles from "../styles/first.module.scss";
 import { useEffect, useRef, useState } from "react";
 import ImageOpenView from "../components/ImageOpenView";
 import next from "next";
-const CustomButtonGroup = ({ next, previous, goToSlide, carouselState }) => {
-  const { totalItems, currentSlide } = carouselState;
-  return (
-    <div className="custom-button-group">
-      <div>Current slide is {currentSlide}</div>
-      <button onClick={() => previous()}>Previous slide</button>
-      <button onClick={() => next()}>Next slide</button>
-      <button
-        onClick={() => goToSlide(Math.floor(Math.random() * totalItems + 1))}
-      >
-        Go to a random slide
-      </button>
-    </div>
-  );
-};
-function first({ products }) {
+
+function CarouselPrac({ products }) {
   const [isMoving, setIsMoving] = useState();
   const [openImageIdx, setOpenImageIdx] = useState(-1);
   const [myWindow, setMyWindow] = useState();
@@ -148,6 +134,7 @@ function first({ products }) {
         </button>
         {products.map((product, i) => (
           <p
+            key={i}
             onClick={() => {
               carouselRef.current.goToSlide(i, false);
               // true -> before and after change are not ran
@@ -166,7 +153,7 @@ function first({ products }) {
   );
 }
 
-export default first;
+export default CarouselPrac;
 
 export async function getServerSideProps({
   preview = "false",

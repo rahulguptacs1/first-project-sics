@@ -6,7 +6,7 @@ function Dropdown({ component, items, position }) {
     style: {
       //   color: "green",
     },
-    classNames: [show ? "hover" : ""],
+    classes: [show ? "hover" : ""],
     onClick: () => {
       console.log("clicked");
     },
@@ -26,7 +26,7 @@ function Dropdown({ component, items, position }) {
       {component(handlers)}
       {show && (
         <div className={[styles.dropdown, styles[position]].join(" ")}>
-          {items.map((item) => item)}
+          {items.map((item, i) => item)}
         </div>
       )}
     </div>

@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { useState } from "react";
-function test() {
+function Test() {
   const [red, setRed] = useState(false);
   return (
     <div>
@@ -10,4 +10,4 @@ function test() {
   );
 }
 
-export default test;
+export default Test;
