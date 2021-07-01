@@ -1,8 +1,10 @@
 import { useState } from "react";
 import styles from "@styles/Home/Card/Card.module.scss";
 import ImageOpenView from "./ImageOpenView";
+import { conditionalLog } from "@helpers/utils";
+const clog = conditionalLog();
 function Card({ product, openImage = true, detectClick = () => {} }) {
-  // console.log(product);
+  // clog.c(product);
   // console.log(product.node.images.edges[0].node.urlOriginal)
   const [showImage, setShowImage] = useState(false);
 
@@ -10,8 +12,7 @@ function Card({ product, openImage = true, detectClick = () => {} }) {
     <div
       className={styles.card}
       onClick={() => {
-        setShowImage(true);
-        detectClick();
+        clog.c("card clicked");
       }}
     >
       {openImage && showImage && (
@@ -24,7 +25,14 @@ function Card({ product, openImage = true, detectClick = () => {} }) {
       )}
       <div className={styles.image}>
         <div className={styles.background}>
-          <p className={styles.icon}>
+          <p
+            className={styles.icon}
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowImage(true);
+              detectClick();
+            }}
+          >
             <i className="fa fa-eye" aria-hidden="true"></i>
           </p>
         </div>

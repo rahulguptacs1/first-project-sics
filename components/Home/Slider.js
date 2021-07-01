@@ -6,7 +6,7 @@ import styles from "@styles/Home/Slider.module.scss";
 import { isMobile } from "react-device-detect";
 import { conditionalLog } from "helpers/utils";
 const clog = conditionalLog(false, {
-  interval: false,
+  interval: true,
   index: true,
 });
 const responsive = {
@@ -42,9 +42,9 @@ function Slider({ products }) {
   const timeoutRef = useRef();
   const startAutoScroll = () => {
     intervalRef.current = setInterval(() => {
-      clog.c("interval ran", clog.g.interval);
+      clog.c("interval ran", clog.interval);
       if (componentMountedRef.current) {
-        clog.c("updating state", clog.g.interval);
+        clog.c("updating state", clog.interval);
         const nextSlide = carouselRef.current.state.currentSlide + 1;
         carouselRef.current.goToSlide(nextSlide, {
           skipBeforeChange: true,
@@ -53,7 +53,7 @@ function Slider({ products }) {
         clearInterval(intervalRef.current);
       }
     }, 3000);
-    clog.c("interval set " + intervalRef.current, clog.g.interval);
+    clog.c("interval set " + intervalRef.current, clog.interval);
   };
   useEffect(() => {
     const keyDownCallback = (e) => {
@@ -75,15 +75,15 @@ function Slider({ products }) {
     };
   }, []);
   const manualControl = () => {
-    clog.c("manual control", clog.g.interval);
+    clog.c("manual control", clog.interval);
     clearInterval(intervalRef.current);
-    clog.c("interval cleared " + intervalRef.current, clog.g.interval);
+    clog.c("interval cleared " + intervalRef.current, clog.interval);
     clearTimeout(timeoutRef.current);
-    clog.c("timeout cleared " + timeoutRef.current, clog.g.interval);
+    clog.c("timeout cleared " + timeoutRef.current, clog.interval);
     timeoutRef.current = setTimeout(() => {
       startAutoScroll();
     }, 3000);
-    clog.c("timeout set " + timeoutRef.current, clog.g.interval);
+    clog.c("timeout set " + timeoutRef.current, clog.interval);
   };
   return (
     <div className={styles.slider}>
@@ -122,7 +122,7 @@ function Slider({ products }) {
             product={product}
             openImage={false}
             detectClick={() => {
-              if (!isMoving) setOpenImageIdx(clog.c(i, clog.g.index));
+              if (!isMoving) setOpenImageIdx(clog.c(i, clog.index));
             }}
           />
         ))}

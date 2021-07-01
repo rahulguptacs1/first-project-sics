@@ -14,15 +14,16 @@ export const modFunc = (val) => {
     return Math.abs(x - val);
   };
 };
-export const conditionalLog = (log = true, groups = {}) => {
+export const conditionalLog = (log = true, groups = { consume: false }) => {
+  // set log to false to log nothing
   const g = {};
   Object.keys(groups).forEach((key) => {
     g[key] = key;
   });
   return {
     c: (val, group) => {
-      if (!log) return;
-      if (group && Object.keys(groups).length) {
+      if (!log) return val;
+      if (group !== undefined && Object.keys(groups).length) {
         if (groups[group]) {
           console.log(val);
         }
@@ -32,6 +33,6 @@ export const conditionalLog = (log = true, groups = {}) => {
 
       return val;
     },
-    g,
+    ...g,
   };
 };

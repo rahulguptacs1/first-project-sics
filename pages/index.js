@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { getConfig } from "@bigcommerce/storefront-data-hooks/api";
 import getAllProducts from "@bigcommerce/storefront-data-hooks/api/operations/get-all-products";
+import getProduct from "@bigcommerce/storefront-data-hooks/api/operations/get-product";
 import styles from "@styles/Home/Home.module.scss";
 import Card from "@components/Home/Card/Card";
 
@@ -9,6 +10,7 @@ import Slider from "@components/Home/Slider";
 import Reviews from "@components/Home/Reviews/Reviews";
 import ScrollUp from "@components/Shared/ScrollUp";
 export default function Home({ products }) {
+  // console.log(products);
   return (
     <div className={styles.container}>
       <Head>
@@ -17,15 +19,7 @@ export default function Home({ products }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <p
-        className={styles.first}
-        onClick={() => {
-          setShowScrollUpButton(!showScrollUpButton);
-        }}
-      >
-        {" "}
-        first page{" "}
-      </p>
+      <p className={styles.first}> first page </p>
       <p>
         <Link href="/practice/about">
           <a>About App</a>
