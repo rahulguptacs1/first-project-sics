@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
-import styles from "../styles/Card.module.scss";
-import Button from "./Button";
+import { useState } from "react";
+import styles from "@styles/Home/Card/Card.module.scss";
 import ImageOpenView from "./ImageOpenView";
 function Card({ product, openImage = true, detectClick = () => {} }) {
   // console.log(product);
@@ -36,9 +35,9 @@ function Card({ product, openImage = true, detectClick = () => {} }) {
         {product.node.name.replace("[Sample] ", "")}
       </p>
       <p className={styles.price}>${product.node.prices.price.value}</p>
-      <Button>
+      <div className={styles.button}>
         <i className="fa fa-shopping-cart"></i>Add to cart
-      </Button>
+      </div>
     </div>
   );
 }

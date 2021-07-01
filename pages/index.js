@@ -1,41 +1,14 @@
 import Head from "next/head";
 import { getConfig } from "@bigcommerce/storefront-data-hooks/api";
 import getAllProducts from "@bigcommerce/storefront-data-hooks/api/operations/get-all-products";
-import styles from "../styles/Home.module.scss";
-import Card from "../components/Card";
-import { CSSTransition } from "react-transition-group";
-import { useState } from "react";
-import { modFunc, range } from "../helpers/utils";
-import { usePrevious } from "../hooks/usePrevious";
-import { useSwipe } from "../hooks/useSwipe";
-import Review from "../components/Review";
-import { useElementProperty } from "../hooks/useElementProperty";
-import { useEffect } from "react/cjs/react.development";
+import styles from "@styles/Home/Home.module.scss";
+import Card from "@components/Home/Card/Card";
+
 import Link from "next/link";
-import Slider from "../components/Home/Slider";
-
+import Slider from "@components/Home/Slider";
+import Reviews from "@components/Home/Reviews/Reviews";
+import ScrollUp from "@components/Shared/ScrollUp";
 export default function Home({ products }) {
-  const { activeIndex, swipeHandlers, prevIndex, nextIndex, swipeType } =
-    useSwipe(5);
-  const [showScrollUpButton, setShowScrollUpButton] = useState(false);
-  const { propertyValue: reviewHeight, ref: reviewRef } = useElementProperty(
-    "offsetHeight",
-    (updaterFunc) => {
-      window.addEventListener("resize", () => {
-        // console.log("updating height");
-        updaterFunc();
-      });
-    }
-  );
-
-  useEffect(() => {
-    window.addEventListener("scroll", () => {
-      // console.log(window.scrollY);
-      // console.log(window.innerHeight);
-      setShowScrollUpButton(window.scrollY > window.innerHeight / 2);
-    });
-  }, []);
-  const prevActiveIndex = usePrevious(activeIndex);
   return (
     <div className={styles.container}>
       <Head>
@@ -71,50 +44,9 @@ export default function Home({ products }) {
           <Card product={products[4]} />
         </div>
       </div>
-
-      <div
-        className={styles.reviews}
-        style={{
-          minHeight: `${reviewHeight}px`,
-        }}
-        {...swipeHandlers}
-      >
-        {range(0, 4).map((show, i) => {
-          return (
-            <CSSTransition
-              in={i === activeIndex}
-              key={i}
-              timeout={300}
-              classNames={`review-${swipeType}`}
-              unmountOnExit
-            >
-              <div
-                className={styles.review}
-                style={{ zIndex: modFunc(prevActiveIndex)(i) }}
-                ref={reviewRef}
-              >
-                <Review />
-              </div>
-            </CSSTransition>
-          );
-        })}
-      </div>
+      <Reviews />
       <Slider products={products} />
-      <CSSTransition
-        in={showScrollUpButton}
-        timeout={300}
-        classNames={`scroll-up-button`}
-        unmountOnExit
-      >
-        <div
-          className={styles.scrollUp}
-          onClick={() => {
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }}
-        >
-          <i className="fa fa-arrow-up" aria-hidden="true"></i>
-        </div>
-      </CSSTransition>
+      <ScrollUp />
     </div>
   );
 }

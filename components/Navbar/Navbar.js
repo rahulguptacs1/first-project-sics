@@ -1,8 +1,8 @@
 import { useState } from "react";
-import styles from "../styles/Navbar.module.scss";
+import styles from "@styles/Navbar/Navbar.module.scss";
 import Dropdown from "./Dropdown";
-import Sidebar from "./Sidebar";
-import SideItem from "./SideItem";
+import Sidebar from "./Sidebar/Sidebar";
+import SideItem from "./Sidebar/SideItem";
 import classNames from "classnames";
 function Navbar() {
   const [showSidebar, setShowSidebar] = useState(false);

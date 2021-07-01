@@ -1,5 +1,5 @@
 import { useState } from "react";
-import styles from "../styles/SideItem.module.scss";
+import styles from "@styles/Navbar/Sidebar/SideItem.module.scss";
 function SideItem({ text, items = [], level }) {
   const [showChildren, setShowChildren] = useState(false);
   return (

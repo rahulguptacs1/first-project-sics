@@ -1,4 +1,4 @@
-import styles from "../styles/Review.module.scss";
+import styles from "@styles/Home/Reviews/Review.module.scss";
 function Review() {
   return (
     <div className={styles.review}>

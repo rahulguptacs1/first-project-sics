@@ -1,7 +1,5 @@
-import { useState, useEffect } from "react";
-
-import { useDelayed } from "../hooks/useDelayed";
-import styles from "../styles/Sidebar.module.scss";
+import { useDelayed } from "@hooks/useDelayed";
+import styles from "@styles/Navbar/Sidebar/Sidebar.module.scss";
 import { CSSTransition } from "react-transition-group";
 function Sidebar({ show, close, children }) {
   const { copy: showDelayedCopy } = useDelayed(show, 500);

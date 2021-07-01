@@ -1,0 +1,13 @@
+.reviews {
+  // border: 2px solid purple;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  .review {
+    // border: 5px solid red;
+    position: absolute;
+    width: 50vw;
+    user-select: none;
+  }
+}

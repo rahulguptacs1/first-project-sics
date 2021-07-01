@@ -1,5 +1,5 @@
 import { useState } from "react";
-import styles from "../styles/Dropdown.module.scss";
+import styles from "@styles/Navbar/Dropdown.module.scss";
 function Dropdown({ component, items, position }) {
   const [show, setShow] = useState();
   const handlers = {

@@ -1,4 +1,4 @@
-import styles from "../styles/ImageOpenView.module.scss";
+import styles from "@styles/Home/Card/ImageOpenView.module.scss";
 function ImageOpenView({ src, close }) {
   return (
     <div

@@ -1,7 +1,7 @@
 import Carousel from "react-multi-carousel";
 import { useState, useEffect, useRef } from "react";
-import ImageOpenView from "@components/ImageOpenView";
-import Card from "@components/Card";
+import ImageOpenView from "@components/Home/Card/ImageOpenView";
+import Card from "@components/Home/Card/Card";
 import styles from "@styles/Home/Slider.module.scss";
 import { isMobile } from "react-device-detect";
 import { conditionalLog } from "helpers/utils";

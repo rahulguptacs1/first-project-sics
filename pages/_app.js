@@ -3,7 +3,7 @@ import "react-multi-carousel/lib/styles.css";
 import Head from "next/head";
 
 import { CommerceProvider } from "@bigcommerce/storefront-data-hooks";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/Navbar/Navbar";
 
 function MyApp({ Component, pageProps }) {
   return (
