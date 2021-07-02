@@ -1,6 +1,6 @@
 import { useState } from "react";
-import styles from "@styles/Navbar/Dropdown.module.scss";
-function Dropdown({ component, items, position }) {
+import styles from "@styles/Navbar/NavbarDropdown.module.scss";
+function NavbarDropdown({ component, items, position }) {
   const [show, setShow] = useState();
   const handlers = {
     style: {
@@ -33,4 +33,4 @@ function Dropdown({ component, items, position }) {
   );
 }
 
-export default Dropdown;
+export default NavbarDropdown;

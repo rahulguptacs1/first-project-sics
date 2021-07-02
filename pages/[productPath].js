@@ -1,12 +1,13 @@
 import { getConfig } from "@bigcommerce/storefront-data-hooks/api";
 import getAllProducts from "@bigcommerce/storefront-data-hooks/api/operations/get-all-products";
 import getProduct from "@bigcommerce/storefront-data-hooks/api/operations/get-product";
-import OptionSelector from "@components/Product/OptionSelector";
 import styles from "@styles/Product/Product.module.scss";
 import { useState } from "react";
 import Button from "@components/Shared/Button";
 import classNames from "classnames";
 import Tabs from "@components/Shared/Tabs";
+import ProductOptions from "@components/Product/ProductOptions";
+import { useEffect } from "react/cjs/react.development";
 export const getStaticPaths = async () => {
   const config = getConfig({ locale: "en-US" });
   const { products } = await getAllProducts({
@@ -43,31 +44,60 @@ export const getStaticProps = async (context) => {
 
   return { props: { product: product || null } };
 };
-const colors = ["Blue", "Green", "Red"];
 const maxQuantity = 56;
 function Product({ product }) {
   console.log(product);
-  const [color, setColor] = useState(0);
+  const [productOptionMapper, setProductOptionMapper] = useState(() => {
+    const mapper = [];
+    for (let edge of product.productOptions.edges) {
+      if (edge.node.__typename === "MultipleChoiceOption") {
+        mapper.push(0);
+      } else if (edge.node.__typename === "CheckboxOption") {
+        mapper.push(false);
+      }
+    }
+    // console.log(mapper);
+    return mapper;
+  });
+  const [selectedVariant, setSelectedVariant] = useState();
+  useEffect(() => {
+    setSelectedVariant(
+      product.variants.edges.find((variant) => {
+        for (let i = 0; i < variant.node.productOptions.edges.length; i++) {
+          if (
+            variant.node.productOptions.edges[i].node.values.edges[0].node
+              .label !==
+            product.productOptions.edges[i].node.values.edges[
+              productOptionMapper[i]
+            ].node.label
+          ) {
+            return false;
+          }
+        }
+        return true;
+      })
+    );
+    // console.log(productOptionMapper);
+  }, [productOptionMapper]);
   const [quantity, setQuantity] = useState(1);
 
   return (
     <div className={styles.product}>
       <div className={styles.firstSection}>
         <div className={styles.image}>
-          <img src={product.images.edges[0].node.urlOriginal} />
+          <img src={selectedVariant?.node?.defaultImage?.urlOriginal} />
         </div>
         <div className={styles.content}>
           <p className={styles.name}>{product.name.replace("[Sample] ", "")}</p>
           <div className={styles.rest}>
             <p className={styles.price}>
-              &#8377; {product.prices.price.value}.00
+              &#8377; {selectedVariant?.node?.prices?.price.value}.00
             </p>
             <div className={styles.options}>
-              <p className={styles.text}>Color:</p>
-              <OptionSelector
-                options={colors}
-                selectedOptionIdx={color}
-                setSelectedOptionIdx={setColor}
+              <ProductOptions
+                productOptions={product.productOptions}
+                productOptionMapper={productOptionMapper}
+                setProductOptionMapper={setProductOptionMapper}
               />
             </div>
             <div className={styles.inputs}>

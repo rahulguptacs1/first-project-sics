@@ -1,7 +1,7 @@
-import styles from "@styles/Product/ProductOptions/OptionSelector.module.scss";
+import styles from "@styles/Product/ProductOptionTypes/Dropdown.module.scss";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
-function OptionSelector({ options, selectedOptionIdx, setSelectedOptionIdx }) {
+function Dropdown({ options, selectedOptionIdx, setSelectedOptionIdx }) {
   const [showOptions, setShowOptions] = useState(false);
   const [hoveredOptionIdx, setHoveredOptionIdx] = useState(selectedOptionIdx);
   const [keyDown, setKeyDown] = useState(false);
@@ -62,7 +62,7 @@ function OptionSelector({ options, selectedOptionIdx, setSelectedOptionIdx }) {
   }, []);
 
   return (
-    <div className={styles.optionSelector}>
+    <div className={styles.dropdown}>
       <div
         className={styles.input}
         onClick={(e) => {
@@ -96,4 +96,4 @@ function OptionSelector({ options, selectedOptionIdx, setSelectedOptionIdx }) {
   );
 }
 
-export default OptionSelector;
+export default Dropdown;

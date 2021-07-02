@@ -1,6 +1,6 @@
-.optionSelector {
-  z-index: 5;
+.dropdown {
   .input {
+    z-index: 1;
     background-color: var(--color-light-bg);
     padding: 1rem;
     border-radius: 3px;

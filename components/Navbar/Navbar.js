@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styles from "@styles/Navbar/Navbar.module.scss";
-import Dropdown from "./Dropdown";
+import Dropdown from "./NavbarDropdown";
 import Sidebar from "./Sidebar/Sidebar";
 import SideItem from "./Sidebar/SideItem";
 import classNames from "classnames";

@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  gap: 20px;
+  .colorBox {
+    width: 30px;
+    height: 30px;
+    &.active {
+      outline: 2px solid rgb(190, 190, 190);
+      outline-offset: 2px;
+    }
+  }
+}
