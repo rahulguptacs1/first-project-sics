@@ -1,7 +1,7 @@
 import { getConfig } from "@bigcommerce/storefront-data-hooks/api";
 import getAllProducts from "@bigcommerce/storefront-data-hooks/api/operations/get-all-products";
 import getProduct from "@bigcommerce/storefront-data-hooks/api/operations/get-product";
-import OptionSelector from "@components/Shared/OptionSelector";
+import OptionSelector from "@components/Product/OptionSelector";
 import styles from "@styles/Product/Product.module.scss";
 import { useState } from "react";
 import Button from "@components/Shared/Button";
@@ -46,7 +46,7 @@ export const getStaticProps = async (context) => {
 const colors = ["Blue", "Green", "Red"];
 const maxQuantity = 56;
 function Product({ product }) {
-  // console.log(product);
+  console.log(product);
   const [color, setColor] = useState(0);
   const [quantity, setQuantity] = useState(1);
 
@@ -59,7 +59,9 @@ function Product({ product }) {
         <div className={styles.content}>
           <p className={styles.name}>{product.name.replace("[Sample] ", "")}</p>
           <div className={styles.rest}>
-            <p className={styles.price}>${product.prices.price.value}.00</p>
+            <p className={styles.price}>
+              &#8377; {product.prices.price.value}.00
+            </p>
             <div className={styles.options}>
               <p className={styles.text}>Color:</p>
               <OptionSelector

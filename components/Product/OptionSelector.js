@@ -1,13 +1,21 @@
-import styles from "@styles/Shared/OptionSelector.module.scss";
+import styles from "@styles/Product/ProductOptions/OptionSelector.module.scss";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
 function OptionSelector({ options, selectedOptionIdx, setSelectedOptionIdx }) {
   const [showOptions, setShowOptions] = useState(false);
   const [hoveredOptionIdx, setHoveredOptionIdx] = useState(selectedOptionIdx);
-
+  const [keyDown, setKeyDown] = useState(false);
+  useEffect(() => {
+    // console.log(keyDown);
+    // console.log(hoveredOptionIdx);
+    if (keyDown) {
+      setSelectedOptionIdx(hoveredOptionIdx);
+    }
+  }, [keyDown, hoveredOptionIdx]);
   useEffect(() => {
     window.addEventListener("keydown", (e) => {
       //   console.log(e);
+
       setShowOptions((showOptions) => {
         if (showOptions) {
           e.preventDefault();
@@ -16,10 +24,8 @@ function OptionSelector({ options, selectedOptionIdx, setSelectedOptionIdx }) {
               setHoveredOptionIdx((prevVal) => {
                 const prevIdx = prevVal - 1;
                 if (prevIdx >= 0) {
-                  setSelectedOptionIdx(prevIdx);
                   return prevIdx;
                 }
-                setSelectedOptionIdx(options.length - 1);
                 return options.length - 1;
               });
 
@@ -29,10 +35,8 @@ function OptionSelector({ options, selectedOptionIdx, setSelectedOptionIdx }) {
               setHoveredOptionIdx((prevVal) => {
                 const nextIdx = prevVal + 1;
                 if (nextIdx < options.length) {
-                  setSelectedOptionIdx(nextIdx);
                   return nextIdx;
                 }
-                setSelectedOptionIdx(0);
                 return 0;
               });
 
@@ -42,10 +46,16 @@ function OptionSelector({ options, selectedOptionIdx, setSelectedOptionIdx }) {
               setShowOptions(false);
               break;
           }
+          setKeyDown(true);
         }
         return showOptions;
       });
     });
+    window.addEventListener("keyup", (e) => {
+      e.preventDefault();
+      setKeyDown(false);
+    });
+
     window.addEventListener("click", () => {
       setShowOptions(false);
     });
