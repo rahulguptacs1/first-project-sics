@@ -19,15 +19,15 @@ const responsive = {
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
     partialVisibilityGutter: 30,
-    items: 4,
+    items: 3,
   },
   tablet: {
-    breakpoint: { max: 1024, min: 464 },
+    breakpoint: { max: 1024, min: 600 },
     items: 2,
     partialVisibilityGutter: 40,
   },
   mobile: {
-    breakpoint: { max: 464, min: 0 },
+    breakpoint: { max: 600, min: 0 },
     items: 1,
     // removing partialVisibilityGutter actually defaults to zero
     // so we have no next item visible
@@ -43,7 +43,7 @@ function Slider({ products }) {
   const startAutoScroll = () => {
     intervalRef.current = setInterval(() => {
       clog.c("interval ran", clog.interval);
-      if (componentMountedRef.current) {
+      if (componentMountedRef.current && carouselRef.current) {
         clog.c("updating state", clog.interval);
         const nextSlide = carouselRef.current.state.currentSlide + 1;
         carouselRef.current.goToSlide(nextSlide, {

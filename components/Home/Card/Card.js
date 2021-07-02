@@ -2,17 +2,22 @@ import { useState } from "react";
 import styles from "@styles/Home/Card/Card.module.scss";
 import ImageOpenView from "./ImageOpenView";
 import { conditionalLog } from "@helpers/utils";
+import { useRouter } from "next/router";
+import Button from "@components/Shared/Button";
+// import Link from "next/link";
 const clog = conditionalLog();
 function Card({ product, openImage = true, detectClick = () => {} }) {
   // clog.c(product);
   // console.log(product.node.images.edges[0].node.urlOriginal)
+  const router = useRouter();
   const [showImage, setShowImage] = useState(false);
 
   return (
     <div
       className={styles.card}
       onClick={() => {
-        clog.c("card clicked");
+        clog.c("card clicked", false);
+        router.push(product.node.path);
       }}
     >
       {openImage && showImage && (
@@ -43,9 +48,10 @@ function Card({ product, openImage = true, detectClick = () => {} }) {
         {product.node.name.replace("[Sample] ", "")}
       </p>
       <p className={styles.price}>${product.node.prices.price.value}</p>
-      <div className={styles.button}>
+
+      <Button>
         <i className="fa fa-shopping-cart"></i>Add to cart
-      </div>
+      </Button>
     </div>
   );
 }

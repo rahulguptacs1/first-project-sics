@@ -1,13 +1,30 @@
-.reviews {
-  // border: 2px solid purple;
-  display: flex;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-  .review {
-    // border: 5px solid red;
-    position: absolute;
-    width: 50vw;
-    user-select: none;
+.container {
+  .reviews {
+    // border: 2px solid purple;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    .review {
+      // border: 5px solid red;
+      position: absolute;
+      width: 50vw;
+      user-select: none;
+    }
+  }
+  .buttons {
+    margin-top: 2rem;
+    // border: 1px solid red;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    i {
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: gray;
+      &:hover {
+        color: black;
+      }
+    }
   }
 }

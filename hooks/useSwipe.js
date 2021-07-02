@@ -4,6 +4,7 @@ export const useSwipe = (length) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [swipeType, setSwipeType] = useState();
   const nextIndex = () => {
+    setSwipeType("left");
     setActiveIndex((prevActiveIndex) => {
       const nIdx = prevActiveIndex + 1;
       if (nIdx === length) {
@@ -13,6 +14,7 @@ export const useSwipe = (length) => {
     });
   };
   const prevIndex = () => {
+    setSwipeType("right");
     setActiveIndex((prevActiveIndex) => {
       const pIdx = prevActiveIndex - 1;
       if (pIdx === -1) {
@@ -23,11 +25,9 @@ export const useSwipe = (length) => {
   };
   const swipeHandlers = useSwipeable({
     onSwipedLeft: () => {
-      setSwipeType("left");
       nextIndex();
     },
     onSwipedRight: () => {
-      setSwipeType("right");
       prevIndex();
     },
     trackMouse: true,

@@ -4,6 +4,7 @@ import Dropdown from "./Dropdown";
 import Sidebar from "./Sidebar/Sidebar";
 import SideItem from "./Sidebar/SideItem";
 import classNames from "classnames";
+import Link from "next/link";
 function Navbar() {
   const [showSidebar, setShowSidebar] = useState(false);
   return (
@@ -19,9 +20,16 @@ function Navbar() {
             justifyContent: "flex-start",
           }}
         >
-          <img src="https://template65052.motopreview.com/mt-demo/65000/65052/mt-content/uploads/2017/09/mt-1169_header_logo01.png" />
+          <Link href="/">
+            <img
+              onClick={() => setShowSidebar(false)}
+              src="https://template65052.motopreview.com/mt-demo/65000/65052/mt-content/uploads/2017/09/mt-1169_header_logo01.png"
+            />
+          </Link>
         </div>
-        <SideItem text="mavic" />
+        <Link href="/">
+          <SideItem text="mavic" />
+        </Link>
         <SideItem text="phantom" />
         <SideItem text="accessories" />
         <SideItem
@@ -55,11 +63,15 @@ function Navbar() {
         <SideItem text="blog" />
       </Sidebar>
       <div className={styles.logo}>
-        <img src="https://template65052.motopreview.com/mt-demo/65000/65052/mt-content/uploads/2017/09/mt-1169_header_logo01.png" />
+        <Link href="/">
+          <img src="https://template65052.motopreview.com/mt-demo/65000/65052/mt-content/uploads/2017/09/mt-1169_header_logo01.png" />
+        </Link>
       </div>
 
       <div className={styles.items}>
-        <p className={styles.item}>mavic</p>
+        <Link href="/">
+          <p className={styles.item}>mavic</p>
+        </Link>
         <p className={styles.item}>phantom</p>
         <p className={styles.item}>accessories</p>
         <Dropdown

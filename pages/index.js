@@ -1,9 +1,9 @@
 import Head from "next/head";
 import { getConfig } from "@bigcommerce/storefront-data-hooks/api";
 import getAllProducts from "@bigcommerce/storefront-data-hooks/api/operations/get-all-products";
-import getProduct from "@bigcommerce/storefront-data-hooks/api/operations/get-product";
 import styles from "@styles/Home/Home.module.scss";
 import Card from "@components/Home/Card/Card";
+// import getProduct from "@bigcommerce/storefront-data-hooks/api/operations/get-product";
 
 import Link from "next/link";
 import Slider from "@components/Home/Slider";
@@ -44,16 +44,19 @@ export default function Home({ products }) {
     </div>
   );
 }
-export async function getServerSideProps({
-  preview = "false",
-  locale = "en-US",
-}) {
+export async function getStaticProps() {
   // Fetch data from external API
-  const config = getConfig({ locale });
+  const config = getConfig({ locale: "en-US" });
   const { products } = await getAllProducts({
     config,
     preview: true,
   });
+  // const { product } = await getProduct({
+  //   variables: { path: "/tiered-wire-basket/" },
+  //   config,
+  //   preview: true,
+  // });
+  // console.log(product);
 
   return { props: { products } };
 }

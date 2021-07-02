@@ -1,0 +1,32 @@
+.tabs {
+  .tabNames {
+    border-bottom: 1px solid gray;
+    display: flex;
+    gap: 5px;
+    .tab {
+      width: min-content;
+      color: gray;
+      padding: 0.8rem 1rem;
+      border: 1px solid transparent;
+      border-bottom: none;
+
+      transition: all 300ms ease;
+      cursor: pointer;
+      &:hover,
+      &.active {
+        color: black;
+        border-color: rgb(211, 211, 211);
+      }
+    }
+  }
+  .tabContent {
+    padding: 2rem;
+    .head {
+      font-size: 1.3rem;
+      margin-bottom: 2rem;
+    }
+    .content {
+      color: gray;
+    }
+  }
+}

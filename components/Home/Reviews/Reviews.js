@@ -20,32 +20,38 @@ function Reviews() {
   );
 
   return (
-    <div
-      className={styles.reviews}
-      style={{
-        minHeight: `${reviewHeight}px`,
-      }}
-      {...swipeHandlers}
-    >
-      {range(0, 4).map((show, i) => {
-        return (
-          <CSSTransition
-            in={i === activeIndex}
-            key={i}
-            timeout={300}
-            classNames={`review-${swipeType}`}
-            unmountOnExit
-          >
-            <div
-              className={styles.review}
-              style={{ zIndex: modFunc(prevActiveIndex)(i) || 1 }}
-              ref={reviewRef}
+    <div className={styles.container}>
+      <div
+        className={styles.reviews}
+        style={{
+          minHeight: `${reviewHeight}px`,
+        }}
+        {...swipeHandlers}
+      >
+        {range(0, 4).map((show, i) => {
+          return (
+            <CSSTransition
+              in={i === activeIndex}
+              key={i}
+              timeout={300}
+              classNames={`review-${swipeType}`}
+              unmountOnExit
             >
-              <Review />
-            </div>
-          </CSSTransition>
-        );
-      })}
+              <div
+                className={styles.review}
+                style={{ zIndex: modFunc(prevActiveIndex)(i) ?? 1 }}
+                ref={reviewRef}
+              >
+                <Review />
+              </div>
+            </CSSTransition>
+          );
+        })}
+      </div>
+      <div className={styles.buttons}>
+        <i className="fas fa-chevron-left" onClick={prevIndex}></i>
+        <i className="fas fa-chevron-right" onClick={nextIndex}></i>
+      </div>
     </div>
   );
 }

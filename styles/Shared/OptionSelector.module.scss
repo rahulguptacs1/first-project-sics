@@ -1,0 +1,32 @@
+.optionSelector {
+  z-index: 5;
+  .input {
+    background-color: var(--color-light-bg);
+    padding: 1rem;
+    border-radius: 3px;
+    color: rgb(102, 102, 102);
+  }
+  position: relative;
+  .options {
+    z-index: 5;
+    width: 100%;
+    background-color: white;
+    position: absolute;
+    top: 100%;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    .option {
+      &:not(:last-child) {
+        border-bottom: 1px solid black;
+      }
+      color: gray;
+      padding: 7px 1rem;
+
+      &.hover {
+        color: white;
+        background-color: rgb(255, 102, 0);
+      }
+    }
+  }
+}

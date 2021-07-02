@@ -18,6 +18,10 @@ a {
   font-size: 1rem;
   font-weight: normal;
 }
+:root {
+  --color-light-bg: rgb(255, 242, 242);
+  --color-pink: rgb(233, 66, 255);
+}
 .red {
   color: red;
 }
