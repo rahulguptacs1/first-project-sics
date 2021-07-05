@@ -12,10 +12,10 @@ function Reviews() {
   const { propertyValue: reviewHeight, ref: reviewRef } = useElementProperty(
     "offsetHeight",
     (updaterFunc) => {
-      window.addEventListener("resize", () => {
-        // console.log("updating height");
-        updaterFunc();
-      });
+      window.addEventListener("resize", updaterFunc);
+    },
+    (updaterFunc) => {
+      window.removeEventListener("resize", updaterFunc);
     }
   );
 

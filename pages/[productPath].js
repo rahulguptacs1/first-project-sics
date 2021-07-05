@@ -2,14 +2,32 @@ import { getConfig } from "@bigcommerce/storefront-data-hooks/api";
 import getAllProducts from "@bigcommerce/storefront-data-hooks/api/operations/get-all-products";
 import getProduct from "@bigcommerce/storefront-data-hooks/api/operations/get-product";
 import styles from "@styles/Product/Product.module.scss";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Button from "@components/Shared/Button";
 import classNames from "classnames";
 import Tabs from "@components/Shared/Tabs";
 import ProductOptions from "@components/Product/ProductOptions";
-import { useEffect } from "react/cjs/react.development";
 import useAddItem from "@bigcommerce/storefront-data-hooks/cart/use-add-item";
-
+import Slider from "@components/Shared/Slider";
+const responsive = {
+  superLargeDesktop: {
+    // the naming can be any, depends on you.
+    breakpoint: { max: 4000, min: 3000 },
+    items: 5,
+  },
+  desktop: {
+    breakpoint: { max: 3000, min: 1024 },
+    items: 3,
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 600 },
+    items: 2,
+  },
+  mobile: {
+    breakpoint: { max: 600, min: 0 },
+    items: 1,
+  },
+};
 export const getStaticPaths = async () => {
   const config = getConfig({ locale: "en-US" });
   const { products } = await getAllProducts({
@@ -49,6 +67,7 @@ export const getStaticProps = async (context) => {
 const maxQuantity = 56;
 function Product({ product }) {
   // console.log(product);
+  const imageRef = useRef();
   const [currentImageIdx, setCurrentImageIdx] = useState(0);
   const [productOptionMapper, setProductOptionMapper] = useState(() => {
     const mapper = {};
@@ -93,12 +112,11 @@ function Product({ product }) {
     // console.log(productOptionMapper);
   }, [productOptionMapper]);
   const [quantity, setQuantity] = useState(1);
-
   return (
     <div className={styles.product}>
       <div className={styles.firstSection}>
         <div className={styles.imageSection}>
-          <div className={styles.image}>
+          <div className={styles.image} ref={imageRef}>
             <img
               src={
                 // selectedVariant?.node?.defaultImage?.urlOriginal ||
@@ -106,19 +124,49 @@ function Product({ product }) {
               }
             />
           </div>
-          <div className={styles.imageGrid}>
-            {product.images.edges.map((edge, i) => (
-              <div
-                className={styles.smallImage}
-                key={i}
-                onClick={() => {
-                  // console.log("clicked");
-                  setCurrentImageIdx(i);
-                }}
-              >
-                <img src={edge.node.urlOriginal} draggable={false} />
-              </div>
-            ))}
+          <div
+            className={styles.imageGrid}
+            style={{
+              width: imageRef.current?.offsetWidth || 0 + "px",
+            }}
+          >
+            {Slider({
+              infinite: false,
+              showDots: false,
+              arrows: false,
+              autoScroll: false,
+              responsive: responsive,
+            })({
+              insideCarousel: ({ isMoving }) => {
+                return product.images.edges.map((edge, i) => (
+                  <div
+                    className={classNames(styles.smallImage, {
+                      [styles.active]: i === currentImageIdx,
+                    })}
+                    key={i}
+                    onClick={() => {
+                      console.log("clicked");
+                      if (!isMoving) setCurrentImageIdx(i);
+                    }}
+                  >
+                    <div className={styles.cloud}></div>
+                    <img src={edge.node.urlOriginal} draggable={false} />
+                  </div>
+                ));
+              },
+              outSideCarousel: ({ prev, next }) => {
+                return (
+                  <div className={styles.arrows}>
+                    <p onClick={prev} className={styles.arrow}>
+                      <i className="fas fa-chevron-left"></i>
+                    </p>
+                    <p onClick={next} className={styles.arrow}>
+                      <i className="fas fa-chevron-right"></i>
+                    </p>
+                  </div>
+                );
+              },
+            })}
           </div>
         </div>
         <div className={styles.content}>
@@ -151,7 +199,6 @@ function Product({ product }) {
                 />
               </p>
               <p className={styles.input}>
-                {" "}
                 Available Quantity : <span>{maxQuantity}</span>
               </p>
             </div>
@@ -198,7 +245,10 @@ function Product({ product }) {
     </div>
   );
 }
+
 const AddToCartButton = ({ productId, variantId }) => {
+  console.log(productId);
+  console.log(variantId);
   const addItem = useAddItem();
 
   const addToCart = async () => {
@@ -211,8 +261,8 @@ const AddToCartButton = ({ productId, variantId }) => {
   return (
     <Button
       onClick={async () => {
-        const response = await addToCart();
-        console.log(response);
+        const cart = await addToCart();
+        // console.log(cart);
       }}
       style={{
         padding: `1rem`,

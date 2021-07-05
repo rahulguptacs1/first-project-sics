@@ -7,7 +7,7 @@ const clog = conditionalLog(false, {
   interval: true,
   index: true,
 });
-const responsive = {
+const responsiveDefault = {
   superLargeDesktop: {
     // the naming can be any, depends on you.
     breakpoint: { max: 4000, min: 3000 },
@@ -31,26 +31,34 @@ const responsive = {
     // so we have no next item visible
   },
 };
-function Slider({ infinite }) {
+function Slider({
+  infinite = true,
+  showDots = true,
+  arrows = !isMobile,
+  autoScroll = true,
+  responsive = responsiveDefault,
+}) {
   const [isMoving, setIsMoving] = useState(false);
   const carouselRef = useRef();
   const componentMountedRef = useRef(true);
   const intervalRef = useRef();
   const timeoutRef = useRef();
   const startAutoScroll = () => {
-    intervalRef.current = setInterval(() => {
-      clog.c("interval ran", clog.interval);
-      if (componentMountedRef.current && carouselRef.current) {
-        clog.c("updating state", clog.interval);
-        const nextSlide = carouselRef.current.state.currentSlide + 1;
-        carouselRef.current.goToSlide(nextSlide, {
-          skipBeforeChange: true,
-        });
-      } else {
-        clearInterval(intervalRef.current);
-      }
-    }, 3000);
-    clog.c("interval set " + intervalRef.current, clog.interval);
+    if (autoScroll) {
+      intervalRef.current = setInterval(() => {
+        clog.c("interval ran", clog.interval);
+        if (componentMountedRef.current && carouselRef.current) {
+          clog.c("updating state", clog.interval);
+          const nextSlide = carouselRef.current.state.currentSlide + 1;
+          carouselRef.current.goToSlide(nextSlide, {
+            skipBeforeChange: true,
+          });
+        } else {
+          clearInterval(intervalRef.current);
+        }
+      }, 3000);
+      clog.c("interval set " + intervalRef.current, clog.interval);
+    }
   };
   useEffect(() => {
     const keyDownCallback = (e) => {
@@ -86,12 +94,16 @@ function Slider({ infinite }) {
     // console.log(isMoving);
     return (
       <div>
-        {outSideCarousel()}
+        {outSideCarousel({
+          isMoving,
+          prev: () => carouselRef.current?.previous(),
+          next: () => carouselRef.current?.next(),
+        })}
         <Carousel
-          arrows={!isMobile}
+          arrows={arrows}
           ssr={true}
           infinite={infinite} // loops
-          showDots={true}
+          showDots={showDots}
           ref={(el) => (carouselRef.current = el)}
           responsive={responsive}
           beforeChange={() => {
@@ -105,7 +117,11 @@ function Slider({ infinite }) {
           }}
           partialVisible={true}
         >
-          {insideCarousel({ isMoving })}
+          {insideCarousel({
+            isMoving,
+            prev: () => carouselRef.current?.previous(),
+            next: () => carouselRef.current?.next(),
+          })}
         </Carousel>
       </div>
     );
