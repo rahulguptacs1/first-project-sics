@@ -9,6 +9,8 @@ import Tabs from "@components/Shared/Tabs";
 import ProductOptions from "@components/Product/ProductOptions";
 import useAddItem from "@bigcommerce/storefront-data-hooks/cart/use-add-item";
 import Slider from "@components/Shared/Slider";
+import MobileView from "@components/Shared/MobileView";
+import { setDimension } from "@hooks/setDimension";
 const responsive = {
   superLargeDesktop: {
     // the naming can be any, depends on you.
@@ -68,7 +70,11 @@ const maxQuantity = 56;
 function Product({ product }) {
   // console.log(product);
   const imageRef = useRef();
+  const gridRef = useRef();
+  setDimension("width", gridRef, imageRef, true);
+
   const [currentImageIdx, setCurrentImageIdx] = useState(0);
+
   const [productOptionMapper, setProductOptionMapper] = useState(() => {
     const mapper = {};
     for (let edge of product.productOptions.edges) {
@@ -117,19 +123,21 @@ function Product({ product }) {
       <div className={styles.firstSection}>
         <div className={styles.imageSection}>
           <div className={styles.image} ref={imageRef}>
-            <img
-              src={
-                // selectedVariant?.node?.defaultImage?.urlOriginal ||
-                product.images.edges[currentImageIdx]?.node.urlOriginal
-              }
+            <MobileView
+              items={product.images.edges.map((edge, i) => (
+                <img
+                  src={
+                    // selectedVariant?.node?.defaultImage?.urlOriginal ||
+                    edge?.node.urlOriginal
+                  }
+                  draggable={false}
+                />
+              ))}
+              activeIndex={currentImageIdx}
+              setActiveIndex={setCurrentImageIdx}
             />
           </div>
-          <div
-            className={styles.imageGrid}
-            style={{
-              width: imageRef.current?.offsetWidth || 0 + "px",
-            }}
-          >
+          <div className={styles.imageGrid} ref={gridRef}>
             {Slider({
               infinite: false,
               showDots: false,
@@ -145,7 +153,7 @@ function Product({ product }) {
                     })}
                     key={i}
                     onClick={() => {
-                      console.log("clicked");
+                      // console.log("clicked");
                       if (!isMoving) setCurrentImageIdx(i);
                     }}
                   >
@@ -232,7 +240,11 @@ function Product({ product }) {
           tabs={[
             {
               name: "Description",
-              content: product.description,
+              content: (
+                <div
+                  dangerouslySetInnerHTML={{ __html: product.description }}
+                ></div>
+              ),
             },
             {
               name: "Reviews",
@@ -247,8 +259,8 @@ function Product({ product }) {
 }
 
 const AddToCartButton = ({ productId, variantId }) => {
-  console.log(productId);
-  console.log(variantId);
+  // console.log(productId);
+  // console.log(variantId);
   const addItem = useAddItem();
 
   const addToCart = async () => {

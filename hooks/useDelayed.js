@@ -7,7 +7,5 @@ export const useDelayed = (value, delay) => {
       setCopy(value);
     }, delay);
   }, [value]);
-  return {
-    copy,
-  };
+  return copy;
 };

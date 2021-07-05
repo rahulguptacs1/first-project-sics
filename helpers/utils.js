@@ -14,6 +14,9 @@ export const modFunc = (val) => {
     return Math.abs(x - val);
   };
 };
+export const capitalize = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
 export const conditionalLog = (log = true, groups = { consume: false }) => {
   // set log to false to log nothing
   const g = {};

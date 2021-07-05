@@ -94,3 +94,28 @@ a {
   transform: translateY(calc(5vh + 100%));
   transition: all 300ms ease-in;
 }
+.mobile-swipe-left-enter {
+  transform: translateX(100%);
+}
+.mobile-swipe-left-enter-active {
+  transform: translateX(0%);
+  transition: all 300ms ease;
+}
+
+.mobile-swipe-left-exit-active {
+  transform: translateX(-100%);
+  transition: all 300ms ease;
+}
+
+.mobile-swipe-right-enter {
+  transform: translateX(-100%);
+}
+.mobile-swipe-right-enter-active {
+  transform: translateX(0%);
+  transition: all 300ms ease;
+}
+
+.mobile-swipe-right-exit-active {
+  transform: translateX(100%);
+  transition: all 300ms ease;
+}
