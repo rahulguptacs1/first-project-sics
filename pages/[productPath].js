@@ -8,6 +8,8 @@ import classNames from "classnames";
 import Tabs from "@components/Shared/Tabs";
 import ProductOptions from "@components/Product/ProductOptions";
 import { useEffect } from "react/cjs/react.development";
+import useAddItem from "@bigcommerce/storefront-data-hooks/cart/use-add-item";
+
 export const getStaticPaths = async () => {
   const config = getConfig({ locale: "en-US" });
   const { products } = await getAllProducts({
@@ -40,13 +42,14 @@ export const getStaticProps = async (context) => {
     config,
     preview: false,
   });
-  // console.log(product);
+  console.log(product);
 
   return { props: { product: product || null } };
 };
 const maxQuantity = 56;
 function Product({ product }) {
   // console.log(product);
+  const [currentImageIdx, setCurrentImageIdx] = useState(0);
   const [productOptionMapper, setProductOptionMapper] = useState(() => {
     const mapper = {};
     for (let edge of product.productOptions.edges) {
@@ -86,7 +89,8 @@ function Product({ product }) {
         return true;
       })
     );
-    console.log(productOptionMapper);
+    // console.log(selectedVariant);
+    // console.log(productOptionMapper);
   }, [productOptionMapper]);
   const [quantity, setQuantity] = useState(1);
 
@@ -97,15 +101,22 @@ function Product({ product }) {
           <div className={styles.image}>
             <img
               src={
-                selectedVariant?.node?.defaultImage?.urlOriginal ||
-                product.images.edges[0].node.urlOriginal
+                // selectedVariant?.node?.defaultImage?.urlOriginal ||
+                product.images.edges[currentImageIdx]?.node.urlOriginal
               }
             />
           </div>
           <div className={styles.imageGrid}>
             {product.images.edges.map((edge, i) => (
-              <div className={styles.smallImage} key={i}>
-                <img src={edge.node.urlOriginal} />
+              <div
+                className={styles.smallImage}
+                key={i}
+                onClick={() => {
+                  // console.log("clicked");
+                  setCurrentImageIdx(i);
+                }}
+              >
+                <img src={edge.node.urlOriginal} draggable={false} />
               </div>
             ))}
           </div>
@@ -145,16 +156,10 @@ function Product({ product }) {
               </p>
             </div>
             <div className={styles.buttons}>
-              <Button
-                onClick={() => {
-                  console.log("clicked");
-                }}
-                style={{
-                  padding: `1rem`,
-                }}
-              >
-                <i className="fa fa-shopping-cart"></i>Add to cart
-              </Button>
+              <AddToCartButton
+                productId={product.entityId}
+                variantId={selectedVariant?.node.entityId}
+              />
               <Button
                 style={{
                   padding: `1rem`,
@@ -193,5 +198,28 @@ function Product({ product }) {
     </div>
   );
 }
+const AddToCartButton = ({ productId, variantId }) => {
+  const addItem = useAddItem();
 
+  const addToCart = async () => {
+    return await addItem({
+      productId,
+      variantId,
+    });
+  };
+
+  return (
+    <Button
+      onClick={async () => {
+        const response = await addToCart();
+        console.log(response);
+      }}
+      style={{
+        padding: `1rem`,
+      }}
+    >
+      <i className="fa fa-shopping-cart"></i>Add to cart
+    </Button>
+  );
+};
 export default Product;

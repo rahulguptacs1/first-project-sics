@@ -7,11 +7,30 @@ import styles from "@styles/Home/Home.module.scss";
 import ImageOpenView from "@components/Home/Card/ImageOpenView";
 import Card from "@components/Home/Card/Card";
 import Link from "next/link";
-import Slider from "@components/Home/Slider";
+import Slider from "@components/Shared/Slider";
 import Reviews from "@components/Home/Reviews/Reviews";
 import ScrollUp from "@components/Shared/ScrollUp";
+import { useState } from "react";
+export async function getStaticProps() {
+  // Fetch data from external API
+  const config = getConfig({ locale: "en-US" });
+  const { products } = await getAllProducts({
+    config,
+    preview: true,
+  });
+  const { product } = await getProduct({
+    variables: { path: "/tiered-wire-basket/" },
+    config,
+    preview: true,
+  });
+  console.log(product);
+
+  return { props: { products } };
+}
+
 export default function Home({ products }) {
   // console.log(products);
+  const [openImageIdx, setOpenImageIdx] = useState(-1);
   return (
     <div className={styles.container}>
       <Head>
@@ -41,8 +60,8 @@ export default function Home({ products }) {
       </div>
       <Reviews />
 
-      {Slider()({
-        insideCarousel: ({ isMoving, setOpenImageIdx }) =>
+      {Slider({ infinite: true })({
+        insideCarousel: ({ isMoving }) =>
           products.map((product, i) => (
             <Card
               key={i}
@@ -53,7 +72,7 @@ export default function Home({ products }) {
               }}
             />
           )),
-        outSideCorousel: ({ openImageIdx, setOpenImageIdx }) =>
+        outSideCarousel: () =>
           products.map((product, i) =>
             i === openImageIdx ? (
               <ImageOpenView
@@ -70,20 +89,4 @@ export default function Home({ products }) {
       <ScrollUp />
     </div>
   );
-}
-export async function getStaticProps() {
-  // Fetch data from external API
-  const config = getConfig({ locale: "en-US" });
-  const { products } = await getAllProducts({
-    config,
-    preview: true,
-  });
-  const { product } = await getProduct({
-    variables: { path: "/tiered-wire-basket/" },
-    config,
-    preview: true,
-  });
-  console.log(product);
-
-  return { props: { products } };
 }

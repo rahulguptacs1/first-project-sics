@@ -1,7 +1,6 @@
 import Carousel from "react-multi-carousel";
 import { useState, useEffect, useRef } from "react";
 
-import styles from "@styles/Home/Slider.module.scss";
 import { isMobile } from "react-device-detect";
 import { conditionalLog } from "helpers/utils";
 const clog = conditionalLog(false, {
@@ -32,10 +31,9 @@ const responsive = {
     // so we have no next item visible
   },
 };
-function Slider() {
+function Slider({ infinite }) {
   const [isMoving, setIsMoving] = useState(false);
   const carouselRef = useRef();
-  const [openImageIdx, setOpenImageIdx] = useState(-1);
   const componentMountedRef = useRef(true);
   const intervalRef = useRef();
   const timeoutRef = useRef();
@@ -84,15 +82,15 @@ function Slider() {
     }, 3000);
     clog.c("timeout set " + timeoutRef.current, clog.interval);
   };
-  return ({ insideCarousel, outSideCorousel }) => {
+  return ({ insideCarousel = () => null, outSideCarousel = () => null }) => {
     // console.log(isMoving);
     return (
-      <div className={styles.slider}>
-        {outSideCorousel({ openImageIdx, setOpenImageIdx })}
+      <div>
+        {outSideCarousel()}
         <Carousel
           arrows={!isMobile}
           ssr={true}
-          infinite={true} // loops
+          infinite={infinite} // loops
           showDots={true}
           ref={(el) => (carouselRef.current = el)}
           responsive={responsive}
@@ -107,7 +105,7 @@ function Slider() {
           }}
           partialVisible={true}
         >
-          {insideCarousel({ isMoving, setOpenImageIdx })}
+          {insideCarousel({ isMoving })}
         </Carousel>
       </div>
     );

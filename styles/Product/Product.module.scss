@@ -24,8 +24,11 @@
       .imageGrid {
         display: flex;
         .smallImage {
+          // border: 2px solid red;
+          user-select: none;
           img {
             height: 100px;
+            width: 100px;
           }
         }
       }
