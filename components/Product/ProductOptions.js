@@ -25,7 +25,7 @@ function ProductOptions({
             productOption={productOption}
             productOptionMapper={productOptionMapper}
             setProductOptionMapper={setProductOptionMapper}
-            index={i}
+            index={productOption.node.displayName}
           />
         );
       })}

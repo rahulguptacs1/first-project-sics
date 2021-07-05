@@ -1,7 +1,6 @@
 import Carousel from "react-multi-carousel";
 import { useState, useEffect, useRef } from "react";
-import ImageOpenView from "@components/Home/Card/ImageOpenView";
-import Card from "@components/Home/Card/Card";
+
 import styles from "@styles/Home/Slider.module.scss";
 import { isMobile } from "react-device-detect";
 import { conditionalLog } from "helpers/utils";
@@ -33,8 +32,8 @@ const responsive = {
     // so we have no next item visible
   },
 };
-function Slider({ products }) {
-  const [isMoving, setIsMoving] = useState();
+function Slider() {
+  const [isMoving, setIsMoving] = useState(false);
   const carouselRef = useRef();
   const [openImageIdx, setOpenImageIdx] = useState(-1);
   const componentMountedRef = useRef(true);
@@ -85,50 +84,34 @@ function Slider({ products }) {
     }, 3000);
     clog.c("timeout set " + timeoutRef.current, clog.interval);
   };
-  return (
-    <div className={styles.slider}>
-      {products.map((product, i) =>
-        i === openImageIdx ? (
-          <ImageOpenView
-            key={i}
-            src={product.node.images.edges[0].node.urlOriginal}
-            close={() => {
-              setOpenImageIdx(-1);
-            }}
-          />
-        ) : null
-      )}
-      <Carousel
-        arrows={!isMobile}
-        ssr={true}
-        infinite={true} // loops
-        showDots={true}
-        ref={(el) => (carouselRef.current = el)}
-        responsive={responsive}
-        beforeChange={() => {
-          //   console.log("before change");
-          setIsMoving(true);
-          manualControl();
-        }}
-        afterChange={() => {
-          //   console.log("after change");
-          setIsMoving(false);
-        }}
-        partialVisible={true}
-      >
-        {products.map((product, i) => (
-          <Card
-            key={i}
-            product={product}
-            openImage={false}
-            detectClick={() => {
-              if (!isMoving) setOpenImageIdx(clog.c(i, clog.index));
-            }}
-          />
-        ))}
-      </Carousel>
-    </div>
-  );
+  return ({ insideCarousel, outSideCorousel }) => {
+    // console.log(isMoving);
+    return (
+      <div className={styles.slider}>
+        {outSideCorousel({ openImageIdx, setOpenImageIdx })}
+        <Carousel
+          arrows={!isMobile}
+          ssr={true}
+          infinite={true} // loops
+          showDots={true}
+          ref={(el) => (carouselRef.current = el)}
+          responsive={responsive}
+          beforeChange={() => {
+            //   console.log("before change");
+            setIsMoving(true);
+            manualControl();
+          }}
+          afterChange={() => {
+            //   console.log("after change");
+            setIsMoving(false);
+          }}
+          partialVisible={true}
+        >
+          {insideCarousel({ isMoving, setOpenImageIdx })}
+        </Carousel>
+      </div>
+    );
+  };
 }
 
 export default Slider;

@@ -39,7 +39,7 @@ function Reviews() {
             >
               <div
                 className={styles.review}
-                style={{ zIndex: modFunc(prevActiveIndex)(i) ?? 1 }}
+                style={{ zIndex: modFunc(prevActiveIndex)(i) || 0 }}
                 ref={reviewRef}
               >
                 <Review />

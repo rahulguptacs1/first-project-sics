@@ -1,10 +1,11 @@
 import Head from "next/head";
 import { getConfig } from "@bigcommerce/storefront-data-hooks/api";
+import getProduct from "@bigcommerce/storefront-data-hooks/api/operations/get-product";
 import getAllProducts from "@bigcommerce/storefront-data-hooks/api/operations/get-all-products";
 import styles from "@styles/Home/Home.module.scss";
-import Card from "@components/Home/Card/Card";
 // import getProduct from "@bigcommerce/storefront-data-hooks/api/operations/get-product";
-
+import ImageOpenView from "@components/Home/Card/ImageOpenView";
+import Card from "@components/Home/Card/Card";
 import Link from "next/link";
 import Slider from "@components/Home/Slider";
 import Reviews from "@components/Home/Reviews/Reviews";
@@ -39,7 +40,33 @@ export default function Home({ products }) {
         </div>
       </div>
       <Reviews />
-      <Slider products={products} />
+
+      {Slider()({
+        insideCarousel: ({ isMoving, setOpenImageIdx }) =>
+          products.map((product, i) => (
+            <Card
+              key={i}
+              product={product}
+              openImage={false}
+              detectClick={() => {
+                if (!isMoving) setOpenImageIdx(i);
+              }}
+            />
+          )),
+        outSideCorousel: ({ openImageIdx, setOpenImageIdx }) =>
+          products.map((product, i) =>
+            i === openImageIdx ? (
+              <ImageOpenView
+                key={i}
+                src={product.node.images.edges[0].node.urlOriginal}
+                close={() => {
+                  setOpenImageIdx(-1);
+                }}
+              />
+            ) : null
+          ),
+      })}
+
       <ScrollUp />
     </div>
   );
@@ -51,12 +78,12 @@ export async function getStaticProps() {
     config,
     preview: true,
   });
-  // const { product } = await getProduct({
-  //   variables: { path: "/tiered-wire-basket/" },
-  //   config,
-  //   preview: true,
-  // });
-  // console.log(product);
+  const { product } = await getProduct({
+    variables: { path: "/tiered-wire-basket/" },
+    config,
+    preview: true,
+  });
+  console.log(product);
 
   return { props: { products } };
 }

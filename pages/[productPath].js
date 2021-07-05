@@ -36,9 +36,9 @@ export const getStaticProps = async (context) => {
   const productPath = context.params.productPath;
   // console.log(productPath);
   const { product } = await getProduct({
-    variables: { path: "/" + productPath + "/" },
+    variables: { locale: "en-US", path: "/" + productPath + "/" },
     config,
-    preview: true,
+    preview: false,
   });
   // console.log(product);
 
@@ -46,14 +46,26 @@ export const getStaticProps = async (context) => {
 };
 const maxQuantity = 56;
 function Product({ product }) {
-  console.log(product);
+  // console.log(product);
   const [productOptionMapper, setProductOptionMapper] = useState(() => {
-    const mapper = [];
+    const mapper = {};
     for (let edge of product.productOptions.edges) {
       if (edge.node.__typename === "MultipleChoiceOption") {
-        mapper.push(0);
+        if (edge.node.displayName.endsWith("swatch")) {
+          // console.log(edge.node.values.edges);
+          let idx = 0;
+          for (let i = 0; i < edge.node.values.edges.length; i++) {
+            if (edge.node.values.edges[i].node.isDefault) {
+              idx = i;
+              break;
+            }
+          }
+          mapper[edge.node.displayName] = edge.node.values.edges[idx];
+        } else {
+          mapper[edge.node.displayName] = edge.node.values.edges[0];
+        }
       } else if (edge.node.__typename === "CheckboxOption") {
-        mapper.push(false);
+        mapper[edge.node.displayName] = false;
       }
     }
     // console.log(mapper);
@@ -63,13 +75,10 @@ function Product({ product }) {
   useEffect(() => {
     setSelectedVariant(
       product.variants.edges.find((variant) => {
-        for (let i = 0; i < variant.node.productOptions.edges.length; i++) {
+        for (let edge of variant.node.productOptions.edges) {
           if (
-            variant.node.productOptions.edges[i].node.values.edges[0].node
-              .label !==
-            product.productOptions.edges[i].node.values.edges[
-              productOptionMapper[i]
-            ].node.label
+            edge.node.values.edges[0].node.label !==
+            productOptionMapper[edge.node.displayName].node.label
           ) {
             return false;
           }
@@ -77,21 +86,38 @@ function Product({ product }) {
         return true;
       })
     );
-    // console.log(productOptionMapper);
+    console.log(productOptionMapper);
   }, [productOptionMapper]);
   const [quantity, setQuantity] = useState(1);
 
   return (
     <div className={styles.product}>
       <div className={styles.firstSection}>
-        <div className={styles.image}>
-          <img src={selectedVariant?.node?.defaultImage?.urlOriginal} />
+        <div className={styles.imageSection}>
+          <div className={styles.image}>
+            <img
+              src={
+                selectedVariant?.node?.defaultImage?.urlOriginal ||
+                product.images.edges[0].node.urlOriginal
+              }
+            />
+          </div>
+          <div className={styles.imageGrid}>
+            {product.images.edges.map((edge, i) => (
+              <div className={styles.smallImage} key={i}>
+                <img src={edge.node.urlOriginal} />
+              </div>
+            ))}
+          </div>
         </div>
         <div className={styles.content}>
           <p className={styles.name}>{product.name.replace("[Sample] ", "")}</p>
           <div className={styles.rest}>
             <p className={styles.price}>
-              &#8377; {selectedVariant?.node?.prices?.price.value}.00
+              &#8377;{" "}
+              {selectedVariant?.node?.prices?.price.value ||
+                product.prices.price.value}
+              .00
             </p>
             <div className={styles.options}>
               <ProductOptions
@@ -150,7 +176,19 @@ function Product({ product }) {
       </div>
 
       <div className={styles.tabs}>
-        <Tabs />
+        <Tabs
+          tabs={[
+            {
+              name: "Description",
+              content: product.description,
+            },
+            {
+              name: "Reviews",
+              content:
+                "Our in-house experts will work one-on-one with you to improve your SEO and conversion rates.",
+            },
+          ]}
+        />
       </div>
     </div>
   );

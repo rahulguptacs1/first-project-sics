@@ -1,0 +1,13 @@
+.rectangles {
+  display: flex;
+  gap: 20px;
+  .rectangle {
+    cursor: pointer;
+    padding: 0.5rem;
+    outline: 1px solid rgb(190, 190, 190);
+    &.active {
+      outline: 2px solid black;
+      outline-offset: 2px;
+    }
+  }
+}

@@ -11,15 +11,26 @@
     @media (max-width: 900px) {
       grid-template-columns: repeat(1, 1fr);
     }
-    .image {
-      // border: 1px solid blue;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      img {
-        width: 100%;
+    .imageSection {
+      .image {
+        // border: 1px solid blue;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        img {
+          width: 100%;
+        }
+      }
+      .imageGrid {
+        display: flex;
+        .smallImage {
+          img {
+            height: 100px;
+          }
+        }
       }
     }
+
     .content {
       // border: 1px solid green;
       padding: 0 1rem;

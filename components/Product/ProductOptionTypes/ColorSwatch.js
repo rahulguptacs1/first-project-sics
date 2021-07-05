@@ -1,6 +1,6 @@
-import styles from "@styles/Product/ProductOptionTypes/ColorRectangle.module.scss";
+import styles from "@styles/Product/ProductOptionTypes/ColorSwatch.module.scss";
 import classNames from "classnames";
-function ColorRectangle({
+function ColorSwatch({
   options,
   selectedOptionIdx,
   setSelectedOptionIdx,
@@ -10,19 +10,26 @@ function ColorRectangle({
   return (
     <div className={styles.container}>
       {colors.map((color, i) => (
-        <p
+        <div
           key={i}
           className={classNames(styles.colorBox, {
             [styles.active]: i === selectedOptionIdx,
           })}
-          style={{
-            backgroundColor: color,
-          }}
           onClick={() => setSelectedOptionIdx(i)}
-        ></p>
+        >
+          {color.map((col, i) => (
+            <p
+              key={i}
+              className={styles.col}
+              style={{
+                backgroundColor: col,
+              }}
+            ></p>
+          ))}
+        </div>
       ))}
     </div>
   );
 }
 
-export default ColorRectangle;
+export default ColorSwatch;

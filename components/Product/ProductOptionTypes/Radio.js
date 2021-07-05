@@ -12,7 +12,7 @@ function Radio({ options, selectedOptionIdx, setSelectedOptionIdx }) {
   return (
     <div className={styles.options}>
       {options.map((option, i) => (
-        <div className={styles.option}>
+        <div className={styles.option} key={i}>
           <div className={styles.box}>
             <div
               className={classNames(styles.marker, {
